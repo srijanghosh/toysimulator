@@ -4,7 +4,7 @@ import { IonicModule } from '@ionic/angular';
 import { HomeComponent } from './home.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
-fdescribe('HomeComponent', () => {
+describe('HomeComponent', () => {
   let component: HomeComponent;
   let fixture: ComponentFixture<HomeComponent>;
 
@@ -27,7 +27,7 @@ fdescribe('HomeComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('test case 1', async () => {
+  it('test case set 1', async () => {
     const app = fixture.debugElement.componentInstance;
     app.robotForm.controls.placeText.setValue('0,0,NORTH');
     app.onPlace();
@@ -36,7 +36,7 @@ fdescribe('HomeComponent', () => {
     expect(app.reportList[app.reportList.length - 1]).toEqual('0,1,NORTH');
   });
 
-  it('test case 2', async () => {
+  it('test case set 2', async () => {
     const app = fixture.debugElement.componentInstance;
     app.robotForm.controls.placeText.setValue('0,0,NORTH');
     app.onPlace();
@@ -45,7 +45,7 @@ fdescribe('HomeComponent', () => {
     expect(app.reportList[app.reportList.length - 1]).toEqual('0,0,WEST');
   });
 
-  it('test case 3', async () => {
+  it('test case set 3', async () => {
     const app = fixture.debugElement.componentInstance;
     app.robotForm.controls.placeText.setValue('1,2,EAST');
     app.onPlace();
