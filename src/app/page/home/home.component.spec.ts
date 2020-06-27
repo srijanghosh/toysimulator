@@ -28,32 +28,82 @@ describe('HomeComponent', () => {
   });
 
   it('test case set 1', async () => {
-    const app = fixture.debugElement.componentInstance;
-    app.robotForm.controls.placeText.setValue('0,0,NORTH');
-    app.onPlace();
-    app.onMove();
-    app.onReport();
-    expect(app.reportList[app.reportList.length - 1]).toEqual('0,1,NORTH');
+    const home = fixture.debugElement.componentInstance;
+    home.robotForm.controls.placeText.setValue('0,0,NORTH');
+    home.onPlace();
+    home.onMove();
+    home.onReport();
+    expect(home.reportList[home.reportList.length - 1]).toEqual('0,1,NORTH');
   });
 
   it('test case set 2', async () => {
-    const app = fixture.debugElement.componentInstance;
-    app.robotForm.controls.placeText.setValue('0,0,NORTH');
-    app.onPlace();
-    app.onLeft();
-    app.onReport();
-    expect(app.reportList[app.reportList.length - 1]).toEqual('0,0,WEST');
+    const home = fixture.debugElement.componentInstance;
+    home.robotForm.controls.placeText.setValue('0,0,NORTH');
+    home.onPlace();
+    home.onLeft();
+    home.onReport();
+    expect(home.reportList[home.reportList.length - 1]).toEqual('0,0,WEST');
   });
 
   it('test case set 3', async () => {
-    const app = fixture.debugElement.componentInstance;
-    app.robotForm.controls.placeText.setValue('1,2,EAST');
-    app.onPlace();
-    app.onMove();
-    app.onMove();
-    app.onLeft();
-    app.onMove();
-    app.onReport();
-    expect(app.reportList[app.reportList.length - 1]).toEqual('3,3,NORTH');
+    const home = fixture.debugElement.componentInstance;
+    home.robotForm.controls.placeText.setValue('1,2,EAST');
+    home.onPlace();
+    home.onMove();
+    home.onMove();
+    home.onLeft();
+    home.onMove();
+    home.onReport();
+    expect(home.reportList[home.reportList.length - 1]).toEqual('3,3,NORTH');
   });
+
+  it('robot should not fall east side', async () => {
+    const home = fixture.debugElement.componentInstance;
+    home.robotForm.controls.placeText.setValue('0,0,EAST');
+    home.onPlace();
+    const tableWidth = home.table.width;
+    for (let i = 0; i <= tableWidth * 2; i++){
+      home.onMove();
+    }
+    home.onReport();
+    expect(home.reportList[home.reportList.length - 1]).toEqual((tableWidth - 1) + ',0,EAST');
+  });
+
+  it('robot should not fall north side', async () => {
+    const home = fixture.debugElement.componentInstance;
+    home.robotForm.controls.placeText.setValue('0,0,NORTH');
+    home.onPlace();
+    const tableheight = home.table.height;
+    for (let i = 0; i <= tableheight * 2; i++){
+      home.onMove();
+    }
+    home.onReport();
+    expect(home.reportList[home.reportList.length - 1]).toEqual('0,' + (tableheight - 1) + ',NORTH');
+  });
+
+  it('robot should not fall west side', async () => {
+    const home = fixture.debugElement.componentInstance;
+    home.robotForm.controls.placeText.setValue('0,0,WEST');
+    home.onPlace();
+    const tableWidth = home.table.width;
+    for (let i = 0; i <= tableWidth * 2; i++){
+      home.onMove();
+    }
+    home.onReport();
+    expect(home.reportList[home.reportList.length - 1]).toEqual('0,0,WEST');
+  });
+
+  it('robot should not fall south', async () => {
+    const home = fixture.debugElement.componentInstance;
+    home.robotForm.controls.placeText.setValue('0,0,SOUTH');
+    home.onPlace();
+    const tableheight = home.table.height;
+    for (let i = 0; i <= tableheight * 2; i++){
+      home.onMove();
+    }
+    home.onReport();
+    expect(home.reportList[home.reportList.length - 1]).toEqual('0,0,SOUTH');
+  });
+
+
 });
