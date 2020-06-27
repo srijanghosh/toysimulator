@@ -1,0 +1,17 @@
+.blkLn {
+  display: block;
+  height: 30px;
+}
+.blk {
+  display: inline-block;
+  height: 28px;
+  width: 28px;
+  border: solid #000 1px;
+  background-color:blueviolet;
+  ion-icon{
+      margin: 5.5px;
+  }
+}
+.fill {
+  background-color:white;
+}

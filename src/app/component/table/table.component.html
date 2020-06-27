@@ -1,0 +1,12 @@
+<ion-card no-margin>
+    <ion-card-content class="ion-text-center" >
+      <div class="blkLn" *ngFor="let y of heightArray">
+          <div class="blk" *ngFor="let x of widthArray" [ngClass]="{'fill':robotX==x && robotY==y}">
+              <ion-icon name="chevron-up-outline" *ngIf="(direction==='NORTH' && robotX==x && robotY==y)"></ion-icon>
+              <ion-icon name="chevron-forward-outline" *ngIf="(direction==='EAST' && robotX==x && robotY==y)"></ion-icon>
+              <ion-icon name="chevron-down-outline" *ngIf="(direction==='SOUTH' && robotX==x && robotY==y)"></ion-icon>
+              <ion-icon name="chevron-back-outline" *ngIf="(direction==='WEST' && robotX==x && robotY==y)"></ion-icon>
+          </div>
+      </div>
+    </ion-card-content>
+</ion-card>

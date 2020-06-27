@@ -1,0 +1,72 @@
+<ion-content >
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-card>
+            <ion-card-content>
+              <ion-grid>
+                <ion-row>
+                  <ion-col size="6" >
+                  <form [formGroup]="robotForm">
+                    <ion-item >
+                      <ion-label position="floating">X,Y,F eg(0,0,NORTH)</ion-label>
+                      <ion-input type="text"  formControlName="placeText" name="placeText"></ion-input>
+                    </ion-item>
+                  </form>
+                  </ion-col>
+                  <ion-col size="6" class="ion-text-end">
+                      <ion-button expand="block" (click)="onPlace()">
+                          <ion-icon name="download-outline"></ion-icon>
+                          PLACE
+                      </ion-button>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col size="6" >
+                        <ion-button expand="block" (click)="onLeft()">
+                            <ion-icon name="arrow-undo-outline"></ion-icon>
+                            LEFT
+                        </ion-button>
+                    </ion-col>
+                    
+                    <ion-col size="6"  class="ion-text-end" >
+                        <ion-button expand="block" (click)="onRight()">
+                            <ion-icon name="arrow-redo-outline"></ion-icon>
+                            RIGHT
+                        </ion-button>
+                    </ion-col>
+                  </ion-row>
+                  <ion-row>
+                      <ion-col size="6" >
+                          <ion-button expand="block" (click)="onMove()">
+                              <ion-icon name="arrow-up-outline"></ion-icon>
+                              MOVE
+                          </ion-button>
+                      </ion-col>
+                      <ion-col size="6" class="ion-text-end">
+                          <ion-button  expand="block" (click)="onReport()">
+                              <ion-icon name="document-text-outline"></ion-icon>
+                              REPORT
+                          </ion-button>
+                      </ion-col>
+                    </ion-row>
+              </ion-grid>
+            </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-grid>
+    <ion-row>
+      <ion-col><app-table *ngIf="table" [table]="table" [robotX]="robotX" [robotY]="robotY" [direction]="direction"></app-table>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-list >
+    <ion-item ><ion-label><b>Report Logs</b></ion-label></ion-item>
+  </ion-list>
+  <ion-list >
+    <ion-item *ngFor="let item of reportList"><ion-label>{{item}}</ion-label></ion-item>
+  </ion-list>
+</ion-content>
+
