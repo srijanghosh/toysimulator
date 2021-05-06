@@ -13,11 +13,8 @@ export class HomeComponent {
   robotForm: FormGroup;
   robot: Robot;
   table: Table;
-  isPlaced = false;
-  direction: string | null;
   reportList: string[] = [];
-  robotX: number | null;
-  robotY: number | null;
+  robotPosition: string | null;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -45,9 +42,7 @@ export class HomeComponent {
         this.presentToast('Position is outside of table');
         this.robot.confirmLocation(false);
       } else {
-        this.robotX = Number(position[0]);
-        this.robotY = Number(position[1]);
-        this.direction = position[2];
+        this.robotPosition = res.successMsg;
         this.robot.confirmLocation(true);
       }
     }
@@ -60,10 +55,7 @@ export class HomeComponent {
       // error if robot not placed
       this.presentToast(res.errorMsg);
     } else {
-      const position = res.successMsg.split(',');
-      this.robotX = Number(position[0]);
-      this.robotY = Number(position[1]);
-      this.direction = position[2];
+      this.robotPosition = res.successMsg;
     }
   }
 
@@ -74,10 +66,7 @@ export class HomeComponent {
       // error if robot not placed
       this.presentToast(res.errorMsg);
     } else {
-      const position = res.successMsg.split(',');
-      this.robotX = Number(position[0]);
-      this.robotY = Number(position[1]);
-      this.direction = position[2];
+      this.robotPosition = res.successMsg;
     }
   }
 
@@ -94,9 +83,7 @@ export class HomeComponent {
         this.presentToast('Position is outside of table');
         this.robot.confirmLocation(false);
       } else {
-        this.robotX = Number(position[0]);
-        this.robotY = Number(position[1]);
-        this.direction = position[2];
+        this.robotPosition = res.successMsg;
         this.robot.confirmLocation(true);
       }
     }

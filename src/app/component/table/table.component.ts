@@ -8,9 +8,7 @@ import { Table } from 'src/app/model/table';
 })
 export class TableComponent implements OnChanges {
   @Input() table: Table; // param to pass table object which contain height and width
-  @Input() robotX: number | null; // x co-ordinate position of robot origin south west
-  @Input() robotY: number | null; // x co-ordinate position of robot origin south west
-  @Input() direction: string | null; // direction of robot in string value ['NORTH', 'EAST', 'SOUTH', 'WEST']
+  @Input() robotPosition: string | null; // direction of robot in string value ['NORTH', 'EAST', 'SOUTH', 'WEST']
 
   widthArray: number[] = [];
   heightArray: number[] = [];
@@ -32,6 +30,19 @@ export class TableComponent implements OnChanges {
         this.widthArray.push(i);
       }
     }
+  }
+
+  isThereAnyRobot(x: number, y: number, d: string): boolean{
+    if (this.robotPosition){
+      const position = this.robotPosition.split(',');
+      const robotX = Number(position[0]);
+      const robotY = Number(position[1]);
+      const direction = position[2];
+      if (x === robotX && y === robotY && (!d || d === direction)){
+        return true;
+      }
+    }
+    return false;
   }
 
 }

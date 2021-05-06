@@ -34,6 +34,7 @@ describe('Robot', () => {
   it('north facing robot must move north', () => {
     const robot = new Robot();
     robot.place('1,1,north');
+    robot.confirmLocation(true);
     const response: RobotResponse = robot.move();
     expect(response.successMsg).toEqual('1,2,NORTH');
   });
@@ -41,6 +42,7 @@ describe('Robot', () => {
   it('east facing robot must move east', () => {
     const robot = new Robot();
     robot.place('1,1,east');
+    robot.confirmLocation(true);
     const response: RobotResponse = robot.move();
     expect(response.successMsg).toEqual('2,1,EAST');
   });
@@ -48,6 +50,7 @@ describe('Robot', () => {
   it('south facing robot must move south', () => {
     const robot = new Robot();
     robot.place('1,1,south');
+    robot.confirmLocation(true);
     const response: RobotResponse = robot.move();
     expect(response.successMsg).toEqual('1,0,SOUTH');
   });
@@ -55,6 +58,7 @@ describe('Robot', () => {
   it('west facing robot must move west', () => {
     const robot = new Robot();
     robot.place('1,1,west');
+    robot.confirmLocation(true);
     const response: RobotResponse = robot.move();
     expect(response.successMsg).toEqual('0,1,WEST');
   });
@@ -62,28 +66,32 @@ describe('Robot', () => {
   it('north facing robot must return correct location on if move', () => {
     const robot = new Robot();
     robot.place('1,1,north');
-    const response: RobotResponse = robot.ifMove();
+    robot.confirmLocation(true);
+    const response: RobotResponse = robot.move();
     expect(response.successMsg).toEqual('1,2,NORTH');
   });
 
   it('east facing robot must return correct location on if move', () => {
     const robot = new Robot();
     robot.place('1,1,east');
-    const response: RobotResponse = robot.ifMove();
+    robot.confirmLocation(true);
+    const response: RobotResponse = robot.move();
     expect(response.successMsg).toEqual('2,1,EAST');
   });
 
   it('south facing robot must return correct location on if move', () => {
     const robot = new Robot();
     robot.place('1,1,south');
-    const response: RobotResponse = robot.ifMove();
+    robot.confirmLocation(true);
+    const response: RobotResponse = robot.move();
     expect(response.successMsg).toEqual('1,0,SOUTH');
   });
 
   it('west facing robot must return correct location on if move', () => {
     const robot = new Robot();
     robot.place('1,1,west');
-    const response: RobotResponse = robot.ifMove();
+    robot.confirmLocation(true);
+    const response: RobotResponse = robot.move();
     expect(response.successMsg).toEqual('0,1,WEST');
   });
 
@@ -98,6 +106,7 @@ describe('Robot', () => {
   it('move left', () => {
     const robot = new Robot();
     robot.place('1,1,west');
+    robot.confirmLocation(true);
     const response: RobotResponse = robot.left();
     expect(response.successMsg).toEqual('1,1,SOUTH');
   });
@@ -105,6 +114,7 @@ describe('Robot', () => {
   it('move right', () => {
     const robot = new Robot();
     robot.place('1,1,west');
+    robot.confirmLocation(true);
     const response: RobotResponse = robot.right();
     expect(response.successMsg).toEqual('1,1,NORTH');
   });
@@ -112,6 +122,7 @@ describe('Robot', () => {
   it('report must return location', () => {
     const robot = new Robot();
     robot.place('1,1,NORTH');
+    robot.confirmLocation(true);
     const response: RobotResponse = robot.report();
     expect(response.successMsg).toEqual('1,1,NORTH');
   });
