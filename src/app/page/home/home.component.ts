@@ -30,6 +30,7 @@ export class HomeComponent {
     this.table = new Table(5, 5);
   }
 
+  // place the robot
   onPlace() {
     const placeText = this.robotForm.value.placeText;
     const res = this.robot.place(placeText);
@@ -41,15 +42,18 @@ export class HomeComponent {
       const position = res.successMsg.split(',');
       if (!this.table.isInsideTable(Number(position[0]), Number(position[1]))) {
         // checking if robot position outside of table
-        this.robot.unPlace();
         this.presentToast('Position is outside of table');
+        this.robot.confirmLocation(false);
       } else {
         this.robotX = Number(position[0]);
         this.robotY = Number(position[1]);
         this.direction = position[2];
+        this.robot.confirmLocation(true);
       }
     }
   }
+
+  // turn robot right
   onRight() {
     const res = this.robot.right();
     if (res.isError) {
@@ -62,6 +66,8 @@ export class HomeComponent {
       this.direction = position[2];
     }
   }
+
+  // turn robot left
   onLeft() {
     const res = this.robot.left();
     if (res.isError) {
@@ -74,8 +80,10 @@ export class HomeComponent {
       this.direction = position[2];
     }
   }
+
+  // move the robot
   onMove() {
-    const res = this.robot.ifMove();
+    const res = this.robot.move();
     if (res.isError) {
       // error if robot not placed
       this.presentToast(res.errorMsg);
@@ -84,15 +92,17 @@ export class HomeComponent {
       if (!this.table.isInsideTable(Number(position[0]), Number(position[1]))) {
         // checking if robot position outside of table
         this.presentToast('Position is outside of table');
+        this.robot.confirmLocation(false);
       } else {
-        const res2 = this.robot.move();
-        const position2 = res2.successMsg.split(',');
-        this.robotX = Number(position2[0]);
-        this.robotY = Number(position2[1]);
-        this.direction = position2[2];
+        this.robotX = Number(position[0]);
+        this.robotY = Number(position[1]);
+        this.direction = position[2];
+        this.robot.confirmLocation(true);
       }
     }
   }
+
+  // show robot position on UI
   onReport() {
     const res = this.robot.report();
     if (res.isError) {
@@ -103,6 +113,7 @@ export class HomeComponent {
     }
   }
 
+  // show common alert in UI
   async presentToast(message: string) {
     const toast = await this.toastController.create({
       color: 'danger',

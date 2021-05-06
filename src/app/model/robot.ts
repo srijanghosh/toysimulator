@@ -17,7 +17,7 @@ export class Robot {
     this.currentLocation = [-1, -1];
   }
 
-  // this method unplce a robot if its placed in wrong position
+  // this method plce a robot
   public place(placeText: string): RobotResponse {
     if (!!placeText && placeText.split(',').length === 3) {
       const placeArr: any = placeText.split(',');
@@ -25,25 +25,21 @@ export class Robot {
         return el.trim();
       });
       if (
-        Number.isInteger(placeArr[0] * 1) &&
-        Number.isInteger(placeArr[1] * 1) &&
+        Number.isInteger(parseInt(placeArr[0], 10)) &&
+        Number.isInteger(parseInt(placeArr[1], 10)) &&
         this.directionText.indexOf(placeArr[2].toUpperCase()) >= 0
       ) {
-        this.currentLocation = [placeArr[0] * 1, placeArr[1] * 1];
+        this.nextLocation = [parseInt(placeArr[0], 10), parseInt(placeArr[1], 10)];
         this.direction = this.directionText.indexOf(placeArr[2].toUpperCase());
-        this.isPlaced = true;
         return new RobotResponse(
           true,
-          this.currentLocation.join(',') +
+          this.nextLocation.join(',') +
             ',' +
             this.directionText[this.direction]
         );
-      } else {
-        return new RobotResponse(false, 'Invalid format');
       }
-    } else {
-      return new RobotResponse(false, 'Invalid format');
     }
+    return new RobotResponse(false, 'Invalid format');
   }
 
   // this method is to turn the robot direction rigth
@@ -79,12 +75,10 @@ export class Robot {
   }
 
   // this method return the next location if robot moves forward
-  public ifMove(): RobotResponse {
+  public move(): RobotResponse {
     if (!this.isPlaced) {
       return new RobotResponse(false, 'Robot not Placed');
     } else {
-      this.nextLocation[0] = this.currentLocation[0];
-      this.nextLocation[1] = this.currentLocation[1];
       switch (this.direction) {
         case 0: // moving north
           this.nextLocation[1]++;
@@ -106,34 +100,6 @@ export class Robot {
     }
   }
 
-  // this method move robot forward
-  public move(): RobotResponse {
-    if (!this.isPlaced) {
-      return new RobotResponse(false, 'Robot not Placed');
-    } else {
-      switch (this.direction) {
-        case 0: // moving north
-          this.currentLocation[1]++;
-          break;
-        case 1: // moving east
-          this.currentLocation[0]++;
-          break;
-        case 2: // moving south
-          this.currentLocation[1]--;
-          break;
-        case 3: // moving west
-          this.currentLocation[0]--;
-          break;
-      }
-      return new RobotResponse(
-        true,
-        this.currentLocation.join(',') +
-          ',' +
-          this.directionText[this.direction]
-      );
-    }
-  }
-
   // this method return robots current position
   public report(): RobotResponse {
     if (!this.isPlaced) {
@@ -147,4 +113,18 @@ export class Robot {
       );
     }
   }
+
+  confirmLocation(isValidLocation: boolean): RobotResponse{
+    if (isValidLocation){
+      this.isPlaced = true;
+      this.currentLocation = [...this.nextLocation];
+    }else if (!this.isPlaced) {
+      this.unPlace();
+    }else{
+      this.nextLocation = [...this.currentLocation];
+    }
+
+    return this.report();
+  }
+
 }
