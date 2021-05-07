@@ -11,10 +11,12 @@ import { Table } from 'src/app/model/table';
 })
 export class HomeComponent {
   robotForm: FormGroup;
+  tableForm: FormGroup;
   robot: Robot;
   table: Table;
   reportList: string[] = [];
   robotPosition: string | null;
+  isTableCreated:boolean=false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -23,12 +25,22 @@ export class HomeComponent {
     this.robotForm = this.formBuilder.group({
       placeText: ['']
     });
-    this.robot = new Robot();
-    this.table = new Table(5, 5);
+    this.tableForm = this.formBuilder.group({
+      tableSizeText: ['']
+    });
+    
   }
 
   // place the robot
   onPlace() {
+
+    if(!this.isTableCreated){
+      this.presentToast("Create a table first");
+      return;
+    }
+    if(!this.robot){
+      this.robot = new Robot();
+    }
     const placeText = this.robotForm.value.placeText;
     const res = this.robot.place(placeText);
     if (res.isError) {
@@ -46,6 +58,30 @@ export class HomeComponent {
         this.robot.confirmLocation(true);
       }
     }
+  }
+
+  // create table
+  onCreateTable() {
+    const tableSize = this.tableForm.value.tableSizeText;
+    if(tableSize && this.isValidTable(tableSize)){
+      const height=parseInt(tableSize.split(',')[0], 10);
+      const width=parseInt(tableSize.split(',')[1], 10);
+      this.table = new Table(height, width);
+      this.isTableCreated=true;
+      this.robotPosition=null;
+      this.robot=null;
+    }
+    else{
+      this.presentToast("Enter valid height width");
+    }
+    
+  }
+  
+  private isValidTable(text:string):boolean{
+    if(text && text.split(',').length==2 && Number.isInteger(parseInt(text.split(',')[0], 10)) && Number.isInteger(parseInt(text.split(',')[1], 10))){
+      return true;
+    }
+    return false;
   }
 
   // turn robot right

@@ -5,6 +5,23 @@
         <ion-card>
             <ion-card-content>
               <ion-grid>
+                  
+                <ion-row>
+                  <ion-col size="6" >
+                    <form [formGroup]="tableForm">
+                      <ion-item >
+                        <ion-label position="floating">width,height</ion-label>
+                        <ion-input type="text"  formControlName="tableSizeText" name="TableText"></ion-input>
+                      </ion-item>
+                    </form>
+                  </ion-col>
+                  <ion-col size="6" class="ion-text-end">
+                    <ion-button expand="block" (click)="onCreateTable()">
+                        <ion-icon name="download-outline"></ion-icon>
+                        Create Table
+                    </ion-button>
+                  </ion-col>
+                </ion-row>
                 <ion-row>
                   <ion-col size="6" >
                   <form [formGroup]="robotForm">
@@ -14,6 +31,7 @@
                     </ion-item>
                   </form>
                   </ion-col>
+                  
                   <ion-col size="6" class="ion-text-end">
                       <ion-button expand="block" (click)="onPlace()">
                           <ion-icon name="download-outline"></ion-icon>
