@@ -21,6 +21,10 @@ describe('HomeComponent', () => {
     fixture = TestBed.createComponent(HomeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+
+    const home = fixture.debugElement.componentInstance;
+    home.tableForm.controls.tableSizeText.setValue('5,5');
+    home.onCreateTable();
   }));
 
   it('should create', () => {

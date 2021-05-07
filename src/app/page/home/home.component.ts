@@ -33,14 +33,11 @@ export class HomeComponent {
 
   // place the robot
   onPlace() {
-
     if(!this.isTableCreated){
       this.presentToast("Create a table first");
       return;
     }
-    if(!this.robot){
-      this.robot = new Robot();
-    }
+    this.createRobotIfNotPresent();
     const placeText = this.robotForm.value.placeText;
     const res = this.robot.place(placeText);
     if (res.isError) {
@@ -62,24 +59,40 @@ export class HomeComponent {
 
   // create table
   onCreateTable() {
-    const tableSize = this.tableForm.value.tableSizeText;
-    if(tableSize && this.isValidTable(tableSize)){
-      const height=parseInt(tableSize.split(',')[0], 10);
-      const width=parseInt(tableSize.split(',')[1], 10);
+    const tableSizeText = this.tableForm.value.tableSizeText;
+    if(this.isValidTable(tableSizeText)){
+      const [height,width]=tableSizeText.split(',').map((el:string)=>parseInt(el.trim(),10));
       this.table = new Table(height, width);
       this.isTableCreated=true;
-      this.robotPosition=null;
-      this.robot=null;
+      this.resetRobot();
     }
     else{
       this.presentToast("Enter valid height width");
     }
     
   }
+
+  // reset robot
+  private resetRobot(){
+    this.robotPosition=null;
+    this.robot=null;
+    this.robotForm.controls.placeText.setValue('');
+  }
+
+  // create robot if not present
+  private createRobotIfNotPresent(){
+    if(!this.robot){
+      this.robot = new Robot();
+    }
+  }
   
-  private isValidTable(text:string):boolean{
-    if(text && text.split(',').length==2 && Number.isInteger(parseInt(text.split(',')[0], 10)) && Number.isInteger(parseInt(text.split(',')[1], 10))){
-      return true;
+  // cheching if string is valid for table creation
+  private isValidTable(tableSizeText:string):boolean{
+    if(tableSizeText && tableSizeText.split(',').length===2 ){
+      const [height,width]=tableSizeText.split(',').map((el:string)=>parseInt(el.trim(),10));
+      if(Number.isInteger(height) && Number.isInteger(width)){
+        return true;
+      }
     }
     return false;
   }
